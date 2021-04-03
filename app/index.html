@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="modBuilder">
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="css/fonts.css" />
+
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../node_modules/angular/angular.min.js"></script>
+  <script src="../node_modules/angular-route/angular-route.min.js"></script>
+
+  <script src="js/css.js"></script>
+  <script src="js/tor.js"></script>
+  <script src="js/update.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/source.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</head>
+
+<body ng-controller="mainController">
+  <div class="nav">
+    <a href="#" class="active"><span class="glyphicon glyphicon-home" aria-hidden="true">Home</span></a>
+    <a href="#!/mod"><span class="glyphicon glyphicon-wrench" aria-hidden="true">Build Mod</span></a>
+    <a href="#!/map"><span class="glyphicon glyphicon-globe" aria-hidden="true">Build Map</span></a>
+    <a href="#!/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true">Settings</span></i></a>
+    <a href="#!/about"><span class="glyphicon glyphicon-info-sign" aria-hidden="true">About</span></i></a>
+  </div>
+  <div class="container">
+    <div ng-view></div>
+  </div>
+
+  <div id="controls">
+    <div id="minimize"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
+    <div id="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+  </div>
+</body>
+
+</html>

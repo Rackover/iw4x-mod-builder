@@ -1,0 +1,74 @@
+::selection {
+  background: rgba($theme-color, 0.99);
+  color: black;
+  text-shadow: none;
+}
+
+::-webkit-scrollbar {
+  width: 18px;
+  height: 18px;
+  overflow: visible;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $text-alt-color;
+  background-clip: padding-box;
+  border-color: transparent;
+  border-style: solid;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  min-height: 26px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  min-width: 26px;
+}
+
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-thumb:vertical {
+  border-width: 7px;
+  transition: all 0.2s;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover,
+::-webkit-scrollbar-thumb:vertical:hover {
+  border-width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-button:end:vertical:increment {
+  background-image: url("../img/scrollbar-arrow-down.svg");
+}
+
+::-webkit-scrollbar-button:end:horizontal:increment {
+  background-image: url("../img/scrollbar-arrow-right.svg");
+}
+
+::-webkit-scrollbar-button:start:vertical:decrement {
+  background-image: url("../img/scrollbar-arrow-up.svg");
+}
+
+::-webkit-scrollbar-button:start:horizontal:decrement {
+  background-image: url("../img/scrollbar-arrow-left.svg");
+}
+
+.loader {
+    border: 16px solid $nav-background-color;
+    border-top: 16px solid $theme-color;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

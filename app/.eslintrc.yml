@@ -1,0 +1,13 @@
+env:
+  browser: true
+  node: true
+  jquery: true
+  es6: false
+plugins:
+  - angular
+globals:
+  global: true
+  angular: true
+settings:
+  import/core-modules:
+    - nw.gui

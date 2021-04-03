@@ -1,0 +1,46 @@
+<div class="header">
+	<h1>Settings</h1>
+</div>
+<div class="folder-selector">
+	<div class="icon" title="Call of Duty 4: Modern Warfare">
+		<img class="gameicon" src="img/cod4.png" />
+	</div>
+	<div class="selection">
+		<div class="label">IW3 Game Directory</div>
+		<div class="controls">
+			<input type="text" aria-for="cod4-folder" />
+			<button value="Browse" aria-for="cod4-folder">
+				<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+				<span class="glyphicon-text">Browse</span>
+			</button>
+			<label for="cod4-folder"></label>
+			<input id="cod4-folder" type="file" nwdirectory />
+		</div>
+	</div>
+</div>
+<hr>
+<div class="folder-selector">
+	<div class="icon" title="Call of Duty: Modern Warfare 2">
+		<img class="gameicon" src="img/mw2.png" />
+	</div>
+	<div class="selection">
+		<div class="label">IW4 Game Directory</div>
+		<div class="controls">
+			<input type="text" aria-for="mw2-folder" />
+			<button aria-for="mw2-folder">
+				<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+				<span class="glyphicon-text">Browse</span>
+			</button>
+			<label for="mw2-folder"></label>
+			<input id="mw2-folder" type="file" nwdirectory />
+		</div>
+	</div>
+</div>
+<hr>
+<div class="save">
+	<button id="save">
+		<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+		<span class="glyphicon-text">Save</span>
+	</button>
+</div>
+<script src="pages/settings.js"></script>

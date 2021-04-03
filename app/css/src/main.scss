@@ -1,0 +1,19 @@
+$theme-color: darken(rgb(134, 192, 0), 3%);
+
+$text-color: rgb(105, 105, 105);
+$text-alt-color: gray;
+
+$background-color: rgb(30, 30, 30);
+$background-shady-color: rgb(45, 45, 45);
+$border-color: lighten($background-shady-color, 2%);
+$nav-background-color: darken($background-shady-color, 2%);
+
+$input-color: $background-shady-color;
+
+@import 'global';
+@import 'misc';
+@import 'navigation';
+@import 'map';
+@import 'about';
+@import 'button';
+@import 'settings';

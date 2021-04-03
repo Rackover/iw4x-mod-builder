@@ -1,0 +1,8 @@
+extends: airbnb/base
+installedESLint: true
+plugins:
+  - import
+env:
+  browser: false
+  node: true
+root: true

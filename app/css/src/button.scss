@@ -1,0 +1,56 @@
+.button,
+button {
+  cursor: pointer;
+  background-color: $input-color;
+  border: none;
+  color: $text-alt-color;
+  padding: 5px 12px;
+  transition: all 0.1s ease-out;
+  margin-left: 5px;
+  outline: none;
+  border-radius: 2px;
+}
+
+.button:hover,
+button:hover {
+  background-color: $theme-color;
+  color: $background-color;
+}
+
+.button > .glyphicon,
+button > .glyphicon {
+  font-size: 12px;
+  margin-right: 2px;
+}
+
+.full-buttons {
+  width: 395px;
+}
+
+.full-buttons button {
+  width: calc(100% - 5px);
+  position: relative;
+  display: block;
+  margin-top: 14px;
+}
+
+.full-buttons button:first-child {
+  margin-top: 0;
+}
+
+.full-buttons .sub-left-panel button {
+  margin-left: 0;
+  margin-right: 5px;
+}
+
+.full-buttons .sub-right-panel button {
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+.full-buttons button .glyphicon {
+  left: 10px;
+  top: 5px;
+  font-size: 13px;
+  position: absolute;
+}

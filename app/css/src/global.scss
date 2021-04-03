@@ -1,0 +1,140 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", "Lucida Sans", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+}
+
+body {
+  background-color: $background-color;
+  color: $text-color;
+  display: table;
+}
+
+a {
+  color: $theme-color;
+  -webkit-user-drag: none;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+.glyphicon {
+  top: 1px;
+  line-height: normal;
+}
+
+.container,
+.nav {
+  display: table-cell;
+  float: left;
+}
+
+.container {
+  height: 429px;
+  width: 594px;
+}
+
+.container {
+  padding-left: 10px;
+  padding-right: 11px;
+}
+
+.container > div.ng-scope {
+  height: 100%;
+}
+
+.center {
+  margin: auto;
+  text-align: center;
+  display: table;
+  height: 100%;
+}
+
+#controls {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 9999;
+  -webkit-app-region: no-drag;
+}
+
+#controls > div {
+  display: inline;
+  transition: all 0.2s;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;
+}
+
+#controls > div:hover {
+  color: $theme-color;
+}
+
+.container img.home-img {
+  display: block;
+}
+
+.container img.home-img,
+.header {
+  background: $background-shady-color;
+  color: $text-color;
+  border-bottom: 1px solid $border-color;
+  -webkit-app-region: drag;
+  z-index: 0;
+}
+
+.header {
+  height: 60px;
+  margin: -21px -11px 11px -10px;
+  text-align: center;
+}
+
+.header h1 {
+  padding-top: 8px;
+  font-weight: lighter;
+}
+
+.center-vertical {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+#home-container {
+  position: relative;
+  width: 100%;
+  height: 367px;
+  display: flex;
+  flex-direction: column;
+}
+
+#setting-box {
+  background-color: rgba($theme-color, 0.1);
+  padding: 10px;
+}
+
+#news-box {
+  flex-grow: 1;
+  position: relative;
+  //white-space: pre;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 10px;
+  width: calc(100% - 20px);
+
+  .loader {
+    border-width: 6px;
+    width: 60px;
+    height: 60px;
+
+    position: absolute;
+    left: calc(50% - 36px);
+    top: calc(50% - 45px);
+  }
+}

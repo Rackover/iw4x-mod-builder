@@ -1,0 +1,27 @@
+.about-container {
+  padding-bottom: 90px;
+}
+
+.about-text {
+  padding: 5px;
+}
+
+.about-text a {
+  text-decoration: none;
+  color: $text-color;
+}
+
+h1 {
+  font-weight: lighter;
+}
+
+h1+.about-text {
+  padding-top: 0;
+  padding-bottom: 20px;
+  margin-top: -20px;
+}
+
+.about-container h1 {
+  margin-top: 0;
+  padding-top: 0;
+}

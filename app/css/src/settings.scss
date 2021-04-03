@@ -1,0 +1,99 @@
+.folder-selector {
+  padding: 10px;
+}
+
+.folder-selector > .selection > .controls,
+.folder-selector > .selection > .label {
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: default;
+}
+
+.icon,
+.left-panel,
+.right-panel,
+.selection,
+.sub-left-panel,
+.sub-right-panel {
+  display: table-cell;
+  float: left;
+}
+
+.right-panel,
+.selection,
+.sub-right-panel {
+  float: none;
+}
+
+.right-panel {
+  padding-left: 10px;
+}
+
+.sub-left-panel,
+.sub-right-panel {
+  text-align: center;
+  width: 50%;
+}
+
+.selection {
+  padding-left: 20px;
+}
+
+img.gameicon {
+  height: 48px;
+  border-radius: 5px;
+  margin-top: 13px;
+}
+
+.container hr {
+  border: none;
+  border-bottom: 1px solid $border-color;
+}
+
+.selection > .controls > input[type="file"],
+.selection > .controls > label {
+  display: none;
+}
+
+.controls > input[type="text"] {
+  background-color: $input-color;
+  border: none;
+  color: $text-alt-color;
+  padding: 5px;
+  cursor: text;
+  width: 400px;
+  border-radius: 2px;
+  transition: background-color 0.3s;
+  outline: none;
+}
+
+.controls > input[type="text"].success {
+  background-color: mix($input-color, rgb(0, 255, 0), 90%);
+}
+
+.controls > input[type="text"].warning {
+  background-color: mix($input-color, rgb(255, 150, 0), 90%);
+}
+
+.controls > input[type="text"].error {
+  background-color: mix($input-color, rgb(255, 0, 0), 90%);
+}
+
+.save {
+  text-align: right;
+  padding-right: 11px;
+}
+
+#save.pending {
+  background-color: $theme-color;
+  color: $background-color;
+}
+
+#save:not(.pending) {
+  pointer-events: none;
+}
+
+#save.pending:hover {
+  background-color: darken($theme-color, 10%);
+}
