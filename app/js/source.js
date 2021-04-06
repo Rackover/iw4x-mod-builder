@@ -2,6 +2,7 @@ var fs = require("fs");
 var path = require("path");
 var glob = require("glob");
 var mkdirp = require('mkdirp');
+const fse = require('fs-extra');
 
 let mapInfo = {
   ambientPlay: "ambient_mp_rural",
@@ -211,13 +212,14 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
     var visionExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "vision", mapname + ".vision"));
     var sunExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "sun", mapname + ".sun"));
 
-    var data =
+    let data =
       "require,contingency\n" +
       "require,co_hunted\n" +
       "require,mp_afghan\n" +
       "require,mp_strike\n" +
       "require,mp_rundown\n" +
-      "require,mp_overgrown\n\n" +
+      "require,mp_overgrown\n" +
+      "require,mp_underpass\n\n" +
 
       "# Those 2 maps below are necessary and always have to be the last required maps\n" +
       "# If you want to require additional maps, add them above!\n" +
@@ -239,6 +241,52 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       "rawfile,maps/mp/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createfx/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createart/" + mapname + "_art.gsc\n" + generateFxList(mw2Path, mapname);
+
+    // Generic ambient sounds
+    // This increases the size of the FF of a few megs but ensures most of the sounds will be present
+    const genericSoundsData = fs.readFileSync(path.join("./app/data/csv/", "generic_sounds_include.csv"), 'utf8');
+    data += genericSoundsData;
+
+    fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
+      console.log(err);
+    });
+
+    // Extra destroyable vehicles?
+    let vehicleData = "";
+    const vehicleModelListPath = path.join(mw2Path, "mods", mapname, "VEHICLES_XMODELS");
+    if (fs.existsSync(vehicleModelListPath)){
+      let doneVehicles = {};
+      const vehiclesList = fs.readFileSync(vehicleModelListPath, 'utf8').split("\n");
+
+      for(i in vehiclesList){
+        const vehicle = vehiclesList[i];
+        if (doneVehicles[vehicle]){
+          continue;
+        }
+
+        if (vehicle.length <= 0){
+          continue;
+        }
+
+        doneVehicles[vehicle] = true;
+        vehicleData += `xmodel,${vehicle}\n`;
+      }
+    }
+
+    // Minigun turrets
+    // For the love of god, this must be included LAST otherwise the `turret_minigun_mp` weapons destroys 
+    // the fastfile, due to poor alignment and a bug in iw4 zonebuilder at the time of recording (06 March 2021)
+    if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
+      const minigunData = fs.readFileSync(path.join("./app/data/csv/", "minigun_include.csv"), 'utf8');
+      data += minigunData;
+
+      fse.copySync("./app/data/minigun", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
+        console.log(err);
+      });
+    }
+
+
+    data += vehicleData;
 
     fs.writeFileSync(mapfile, data);
   }
