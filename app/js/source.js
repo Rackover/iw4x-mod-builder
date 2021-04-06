@@ -33,6 +33,7 @@ global.game = global.game ||
   {};
 
 global.game.generateSource = function (mapname, force) {
+  console.log("Generating source");
   if (!global.game.mw2.isValid()) return;
 
   var mw2Path = global.game.mw2.getPath();
@@ -57,10 +58,28 @@ global.game.generateSource = function (mapname, force) {
       console.log(e);
     }
   }
+
+  console.log("Generating CSV...");
   generateMainCSV(mw2Path, zoneSource, mapname, force);
+
+  console.log("Generating load assets...");
   generateLoadAssets(mw2Path, zoneSource, mapname, force);
-  generateMainGSC(mw2Path, mapname, force);
-  generateArena(mw2Path, mapname, force);
+
+  console.log("Generating main GSC...");
+  try{
+    generateMainGSC(mw2Path, mapname, force);
+  }
+  catch(e){
+    console.log(e);
+  }
+
+  console.log("Generating arena...");
+  try{
+    generateArena(mw2Path, mapname, force);
+  }
+  catch(e){
+    console.log(e);
+  }
 };
 
 function generateMainGSC(mw2Path, mapname, force) {
@@ -77,33 +96,33 @@ function generateMainGSC(mw2Path, mapname, force) {
   var artGscFile = path.join(artGscPath, mapname + "_art.gsc");
 
   if (!fs.existsSync(mainGscFile) || force) {
-    var emptyGsc = "main()\n" +
-      "{\n\n" +
-      "}\n";
+    var emptyGsc = `main()
+    {
+      
+    }`;
 
-    var data =
-      "#include common_scripts\\utility;\n\n" +
+    const fxGsc = `
+    //_createfx generated. Do not touch!
+    #include common_scripts\\utility;
+    #include common_scripts\\_createfx;
 
-      "main()\n" +
-      "{\n" +
-      "\tmaps\\mp\\" + mapname + "_fx::main();\n" +
-      "\tmaps\\createfx\\" + mapname + "_fx::main();\n" +
-      "\tmaps\\createart\\" + mapname + "_art::main();\n" +
-      "\tmaps\\mp\\_load::main();\n\n" +
+    main()
+    {
+    
+    }`;
 
-      "\tgame[ \"attackers\" ] = \"allies\";\n" +
-      "\tgame[ \"defenders\" ] = \"axis\";\n\n" +
+    // Template for main GSC
+    var data = fs.readFileSync(path.join("./app/data/gsc/", "main.gsc"), 'utf8');
 
-      "\tambientPlay ( \"ambient_mp_rural\" );\n\n" +
-
-      "\tsetdvar( \"compassmaxrange\", \"2100\" );\n" +
-      "\tmaps\\mp\\_compass::setupMiniMap( \"compass_map_" + mapname + "\" );\n" +
-      "}\n";
-
+    // Inject map name etc
+    data = data
+      .replace(/MAPNAME/g, mapname)
+      .replace(/AMBIENT/g, mapInfo.ambientPlay);
+      
     fs.writeFileSync(mainGscFile, data);
 
     if (!fs.existsSync(mainFxGscFile)) fs.writeFileSync(mainFxGscFile, emptyGsc);
-    if (!fs.existsSync(fxGscFile)) fs.writeFileSync(fxGscFile, emptyGsc);
+    if (!fs.existsSync(fxGscFile)) fs.writeFileSync(fxGscFile, fxGsc);
     if (!fs.existsSync(artGscFile)) fs.writeFileSync(artGscFile, emptyGsc);
   }
 }
