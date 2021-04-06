@@ -53,21 +53,77 @@ $("#generate-iwd").click(function () {
     output = output.split("------------------- BEGIN IWI DUMP -------------------")[1].split("------------------- END IWI DUMP -------------------")[0];
 
     var images = JSON.parse(output);
-    var chainImages = function (index, callback) {
-      if (index < images.length) {
-        var image = images[index];
-        appendText("Adding " + image + "\n");
-        zip.file(image, fs.readFileSync(path.join(mw2Path, "mods", mapname, image)),
-          {
-            binary: true
-          });
 
-        setTimeout(function () {
-          chainImages(index + 1, callback);
-        }, 1);
+    // // Write preview material and image
+    // const material = {
+    //     "animationX": 1,
+    //     "animationY": 1,
+    //     "cameraRegion": 4,
+    //     "constantTable": null,
+    //     "gameFlags": 0,
+    //     "maps": [
+    //         {
+    //             "firstCharacter": 99,
+    //             "image": `preview_${mapname}`,
+    //             "lastCharacter": 112,
+    //             "sampleState": -30,
+    //             "semantic": 0,
+    //             "typeHash": 2695565377
+    //         }
+    //     ],
+    //     "name": `preview_${mapname}`,
+    //     "sortKey": 34,
+    //     "stateFlags": 3,
+    //     "stateMap": [
+    //         [
+    //             403867666,
+    //             3759013890
+    //         ]
+    //     ],
+    //     "surfaceTypeBits": 0,
+    //     "techniqueSet->name": "2d",
+    //     "unknown": 0
+    // };
+
+    // const materialDir = path.join(mw2Path, "mods", mapname, "materials");
+    // mkdirp.sync(materialDir);
+
+    const previewPath = path.join(mw2Path, "mods", mapname, "images", `preview_${mapname}.iwi`);
+    const loadingPath = path.join(mw2Path, "mods", mapname, "images", `loadscreen_${mapname}.iwi`);
+    
+    fs.copyFileSync(loadingPath, previewPath);
+    images.push(path.join("images", `preview_${mapname}.iwi`));
+
+    try{
+      // We include the minigun anyway to the IWD, it's very small and that's better than including it in the zonefile for now.
+      if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
+        images.push(path.join("weapons", "mp", "turret_minigun_mp"));
       }
-      else {
-        callback();
+    }
+    catch(e){
+      console.log(e);
+    }
+
+    var chainImages = function (index, callback) {
+      try{
+        if (index < images.length) {
+          var image = images[index];
+          appendText("Adding " + image + "\n");
+          zip.file(image, fs.readFileSync(path.join(mw2Path, "mods", mapname, image)),
+            {
+              binary: true
+            });
+
+          setTimeout(function () {
+            chainImages(index + 1, callback);
+          }, 1);
+        }
+        else {
+          callback();
+        }
+      }
+      catch(e){
+        console.log(e);
       }
     };
 
@@ -318,7 +374,12 @@ $("#export-map").click(function () {
 
   process.on('exit', (code) => {
     appendText(`Process terminated with result ${code}`);
-    global.game.generateSource(mapname, false);
-    global.setWorking(false);
+    try{
+      global.game.generateSource(mapname, false);
+      global.setWorking(false);
+    }
+    catch(e){
+      console.log(e);
+    }
   });
 });
