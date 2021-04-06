@@ -3,6 +3,32 @@ var path = require("path");
 var glob = require("glob");
 var mkdirp = require('mkdirp');
 
+let mapInfo = {
+  ambientPlay: "ambient_mp_rural",
+  alliesChar: "us_army",
+  axisChar: "opforce_composite",
+  environment: "urban"
+};
+
+const originalMaps = [
+  "mp_bog",
+  "mp_bloc",
+  "mp_backlot",
+  "mp_crossfire",
+  "mp_shipment",
+  "mp_showdown",
+  "mp_crash",
+  "mp_countdown",
+  "mp_strike",
+  "mp_convoy",
+  "mp_vacant",
+  "mp_citystreets",
+  "mp_cargoship",
+  "mp_pipeline",
+  "mp_overgrown",
+  "mp_farm"
+  ];
+
 global.game = global.game ||
   {};
 
@@ -14,6 +40,23 @@ global.game.generateSource = function (mapname, force) {
   var zoneSource = path.join(mw2Path, "zone_source");
   mkdirp.sync(zoneSource);
 
+  const mapInfoPath = path.join(mw2Path, "mods", mapname, "mapInfo.json");
+
+  console.log(`Checking if map info path exists at ${mapInfoPath}`);
+
+  if (fs.existsSync(mapInfoPath)){
+    console.log(`Yes! Reading it`);
+    mapInfo = JSON.parse(fs.readFileSync(mapInfoPath, 'utf8'));
+  }
+  else{
+    console.log(`No, writing it`);
+    try{
+      fs.writeFileSync(mapInfoPath, JSON.stringify(mapInfo));
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
   generateMainCSV(mw2Path, zoneSource, mapname, force);
   generateLoadAssets(mw2Path, zoneSource, mapname, force);
   generateMainGSC(mw2Path, mapname, force);
@@ -119,18 +162,24 @@ function generateArena(mw2Path, mapname, force) {
   mkdirp.sync(usermapsPath);
 
   if (!fs.existsSync(arenaFile) || force) {
-    var data =
-      "{\n" +
-      "\tmap         \"" + mapname + "\"\n" +
-      "\tlongname    \"" + mapname.toUpperCase() + "\"\n" +
-      "\tgametype    \"\"\n" +
-      "\tdescription \"Custom map " + mapname + "\"\n" +
-      "\tmapimage    \"preview_" + mapname + "\"\n" +
-      "\tmapoverlay  \"compass_overlay_map_blank\"\n" +
-      "\tallieschar  \"us_army\"\n" +
-      "\taxischar    \"opforce_composite\"\n" +
-      "\tenvironment \"urban\"\n" +
-      "}\n";
+
+    const isOfficial = originalMaps.includes(mapname);
+    const longName = isOfficial ? `MPUI_${mapname.toUpperCase()}` : `${capitalizeFirstLetter(mapname.substring(3))}`;
+    const description = isOfficial ? `MPUI_DESC_MAP_${mapname.substring(3).toUpperCase()}` : `Custom map ${mapname}`;
+
+    var data = `
+{ 
+  map         ${name}   
+  longname    ${longName}
+  gametype    dm war sab sab2 dom sd sd2 hc thc ctf koth dd oneflag gtnw
+  description ${description}     
+  mapimage    preview_  ${mapname}     
+  mapoverlay  compass_overlay_map_blank 
+  allieschar  ${mapInfo.alliesChar} 
+  axischar    ${mapInfo.axisChar} 
+  environment ${mapInfo.environment} 
+}
+`;
 
     fs.writeFileSync(arenaFile, data);
   }
@@ -174,4 +223,8 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
 
     fs.writeFileSync(mapfile, data);
   }
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
