@@ -11,12 +11,12 @@ $("a.nav-trigger").click(function () {
   if (mw2Valid) $("#mw2-setting").hide();
   if (cod4Valid && mw2Valid) $("#setting-box").hide();
 
-  global.getChangelog(function (data, error) {
-    if (error) {
-      $("#news-box").html(error);
-    }
-    else {
-      $("#news-box").html(data);
-    }
-  });
+  // global.getChangelog(function (data, error) {
+  //   if (error) {
+  //     $("#news-box").html(error);
+  //   }
+  //   else {
+  //     $("#news-box").html(data);
+  //   }
+  // });
 })();
