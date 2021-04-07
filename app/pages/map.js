@@ -94,16 +94,6 @@ $("#generate-iwd").click(function () {
     fs.copyFileSync(loadingPath, previewPath);
     images.push(path.join("images", `preview_${mapname}.iwi`));
 
-    try{
-      // We include the minigun anyway to the IWD, it's very small and that's better than including it in the zonefile for now.
-      if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
-        images.push(path.join("weapons", "mp", "turret_minigun_mp"));
-      }
-    }
-    catch(e){
-      console.log(e);
-    }
-
     var chainImages = function (index, callback) {
       try{
         if (index < images.length) {

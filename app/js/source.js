@@ -274,8 +274,6 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
     }
 
     // Minigun turrets
-    // For the love of god, this must be included LAST otherwise the `turret_minigun_mp` weapons destroys 
-    // the fastfile, due to poor alignment and a bug in iw4 zonebuilder at the time of recording (06 March 2021)
     if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
       const minigunData = fs.readFileSync(path.join("./app/data/csv/", "minigun_include.csv"), 'utf8');
       data += minigunData;

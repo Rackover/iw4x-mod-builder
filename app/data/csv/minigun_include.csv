@@ -27,4 +27,4 @@ loaded_sound,weapons/minigun/weap_minigun_spinup3b.wav
 sound,minigun_gatling_spinup3
 loaded_sound,weapons/minigun/weap_minigun_spinup4b.wav
 sound,minigun_gatling_spinup4
-# weapon,turret_minigun_mp  # This destroys the fastfile, so better put it in a rawfile until zonebuilder is fixed
+weapon,turret_minigun_mp
