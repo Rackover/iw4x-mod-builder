@@ -48,11 +48,12 @@ $("#generate-iwd").click(function () {
   process.on('exit', (code) => {
     appendText("Building IWD...\n");
 
+    try{
     var zip = new JSZip();
 
     output = output.split("------------------- BEGIN IWI DUMP -------------------")[1].split("------------------- END IWI DUMP -------------------")[0];
 
-    var images = JSON.parse(output);
+    var iwdFiles = JSON.parse(output);
 
     // // Write preview material and image
     // const material = {
@@ -88,16 +89,26 @@ $("#generate-iwd").click(function () {
     // const materialDir = path.join(mw2Path, "mods", mapname, "materials");
     // mkdirp.sync(materialDir);
 
-    const previewPath = path.join(mw2Path, "mods", mapname, "images", `preview_${mapname}.iwi`);
-    const loadingPath = path.join(mw2Path, "mods", mapname, "images", `loadscreen_${mapname}.iwi`);
-    
-    fs.copyFileSync(loadingPath, previewPath);
-    images.push(path.join("images", `preview_${mapname}.iwi`));
+    const workingDirectory = path.join(mw2Path, "mods", mapname);
+    const previewPath = path.join(workingDirectory, "images", `preview_${mapname}.iwi`);
+    const loadingPath = path.join(workingDirectory, "images", `loadscreen_${mapname}.iwi`);
+    const rawSoundsPath = path.join(workingDirectory, "sound");
 
-    var chainImages = function (index, callback) {
+    fs.copyFileSync(loadingPath, previewPath);
+    iwdFiles.push(path.join("images", `preview_${mapname}.iwi`));
+
+    // We add the streamed sounds in!
+    const rawSounds = toolkit.walk(rawSoundsPath);
+    for(i in rawSounds){
+      iwdFiles.push(rawSounds[i].replace(workingDirectory, "").substring(1));
+    }
+
+    console.log(iwdFiles);
+
+    var chainZipFiles = function (index, callback) {
       try{
-        if (index < images.length) {
-          var image = images[index];
+        if (index < iwdFiles.length) {
+          var image = iwdFiles[index];
           appendText("Adding " + image + "\n");
           zip.file(image, fs.readFileSync(path.join(mw2Path, "mods", mapname, image)),
             {
@@ -105,7 +116,7 @@ $("#generate-iwd").click(function () {
             });
 
           setTimeout(function () {
-            chainImages(index + 1, callback);
+            chainZipFiles(index + 1, callback);
           }, 1);
         }
         else {
@@ -117,7 +128,7 @@ $("#generate-iwd").click(function () {
       }
     };
 
-    chainImages(0, function () {
+    chainZipFiles(0, function () {
       var endPath = path.join(mw2Path, "usermaps", mapname);
       mkdirp.sync(endPath);
 
@@ -135,6 +146,10 @@ $("#generate-iwd").click(function () {
           });
       }, 1);
     });
+  }
+  catch(e){
+    console.log(e);
+  }
   });
 });
 

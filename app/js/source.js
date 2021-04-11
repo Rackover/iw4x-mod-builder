@@ -196,7 +196,7 @@ function generateArena(mw2Path, mapname, force) {
   longname    ${longName}
   gametype    dm war sab sab2 dom sd sd2 hc thc ctf koth dd oneflag gtnw
   description ${description}     
-  mapimage    preview_  ${mapname}     
+  mapimage    preview_${mapname}     
   mapoverlay  compass_overlay_map_blank 
   allieschar  ${mapInfo.alliesChar} 
   axischar    ${mapInfo.axisChar} 
@@ -305,9 +305,9 @@ function generateSoundsSource(basePath){
   let source = [];
 
   // loaded sounds
-  const loadedSounds = walk(loadedSoundsRoot);
+  const loadedSounds = toolkit.walk(loadedSoundsRoot);
   for(i in loadedSounds){
-    source.push(`loaded_sound,${loadedSounds[i].replace(loadedSoundsRoot, "").substring("/")}`);
+    source.push(`loaded_sound,${loadedSounds[i].replace(loadedSoundsRoot, "").substring(1)}`);
   }
 
   const soundAliases = fs.readdirSync(soundAliasesRoot);
@@ -316,23 +316,6 @@ function generateSoundsSource(basePath){
   }
 
   return source.join("\n");
-}
-
-function walk (dir) {
-  var results = [];
-  var list = fs.readdirSync(dir);
-  list.forEach(function(file) {
-      file = path.join(dir, file);
-      var stat = fs.statSync(file);
-      if (stat && stat.isDirectory()) { 
-          /* Recurse into a subdirectory */
-          results = results.concat(walk(file));
-      } else { 
-          /* Is a file */
-          results.push(file);
-      }
-  });
-  return results;
 }
 
 function capitalizeFirstLetter(string) {

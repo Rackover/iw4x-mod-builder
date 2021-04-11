@@ -1,6 +1,7 @@
 var glob = require("glob");
 var path = require("path");
 var _pack = require('../package.json');
+const toolkit = require('./js/toolkit');
 
 function loadMaps(scope, apply) {
     var cod4dir = global.game.cod4.getPath();
