@@ -97,20 +97,23 @@ function generateMainGSC(mw2Path, mapname, force) {
   var artGscFile = path.join(artGscPath, mapname + "_art.gsc");
 
   if (!fs.existsSync(mainGscFile) || force) {
-    var emptyGsc = `main()
-    {
-      
-    }`;
+    var emptyGsc = `
+main()
+{
+  
+}
+    `;
 
     const fxGsc = `
-    //_createfx generated. Do not touch!
-    #include common_scripts\\utility;
-    #include common_scripts\\_createfx;
+//_createfx generated. Do not touch!
+#include common_scripts\\utility;
+#include common_scripts\\_createfx;
 
-    main()
-    {
-    
-    }`;
+main()
+{
+
+}
+    `;
 
     // Template for main GSC
     var data = fs.readFileSync(path.join("./app/data/gsc/", "main.gsc"), 'utf8');
@@ -244,12 +247,19 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
 
     // Generic ambient sounds
     // This increases the size of the FF of a few megs but ensures most of the sounds will be present
-    const genericSoundsData = fs.readFileSync(path.join("./app/data/csv/", "generic_sounds_include.csv"), 'utf8');
-    data += genericSoundsData;
+    // const genericSoundsData = fs.readFileSync(path.join("./app/data/csv/", "generic_sounds_include.csv"), 'utf8');
+    // data += genericSoundsData;
 
-    fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
-      console.log(err);
-    });
+    // fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
+    //   console.log(err);
+    // });
+
+    try{
+      data += generateSoundsSource(path.join(mw2Path, "mods", mapname));
+    }
+    catch(e){
+      console.log(e);
+    }
 
     // Extra destroyable vehicles?
     let vehicleData = "";
@@ -273,6 +283,8 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       }
     }
 
+    data += vehicleData;
+
     // Minigun turrets
     if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
       const minigunData = fs.readFileSync(path.join("./app/data/csv/", "minigun_include.csv"), 'utf8');
@@ -283,11 +295,44 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       });
     }
 
-
-    data += vehicleData;
-
     fs.writeFileSync(mapfile, data);
   }
+}
+
+function generateSoundsSource(basePath){
+  const loadedSoundsRoot = path.join(basePath, "loaded_sound");
+  const soundAliasesRoot = path.join(basePath, "sounds");
+  let source = [];
+
+  // loaded sounds
+  const loadedSounds = walk(loadedSoundsRoot);
+  for(i in loadedSounds){
+    source.push(`loaded_sound,${loadedSounds[i].replace(loadedSoundsRoot, "").substring("/")}`);
+  }
+
+  const soundAliases = fs.readdirSync(soundAliasesRoot);
+  for(i in soundAliases){
+    source.push(`sound,${soundAliases[i].replace(basePath, "")}`);
+  }
+
+  return source.join("\n");
+}
+
+function walk (dir) {
+  var results = [];
+  var list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+      file = path.join(dir, file);
+      var stat = fs.statSync(file);
+      if (stat && stat.isDirectory()) { 
+          /* Recurse into a subdirectory */
+          results = results.concat(walk(file));
+      } else { 
+          /* Is a file */
+          results.push(file);
+      }
+  });
+  return results;
 }
 
 function capitalizeFirstLetter(string) {
