@@ -283,12 +283,12 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       }
     }
 
-    data += vehicleData;
+    data += "\n\n# Destroyables\n"+vehicleData;
 
     // Minigun turrets
     if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
       const minigunData = fs.readFileSync(path.join("./app/data/csv/", "minigun_include.csv"), 'utf8');
-      data += minigunData;
+      data += "\n"+minigunData;
 
       fse.copySync("./app/data/minigun", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
         console.log(err);
