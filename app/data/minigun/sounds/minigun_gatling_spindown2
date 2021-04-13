@@ -1,30 +1,28 @@
 {
     "aliasName": "minigun_gatling_spindown2",
-    "count": 1,
     "head": [
         {
             "aliasName": "minigun_gatling_spindown2",
             "centerPercentage": 0.0,
             "chainAliasName": null,
-            "distMax": 1500,
-            "distMin": 50,
+            "distMax": 25000.0,
+            "distMin": 5000.0,
             "envelopMax": 0.0,
             "envelopMin": 0.0,
             "envelopPercentage": 0.0,
-            "flags": 0,
-            "lfePercentage": 1,
+            "flags": 13444,
+            "lfePercentage": 0.0,
             "mixerGroup": null,
-            "pitchMax": 1,
-            "pitchMin": 1,
-            "probability": 0.800000011920929,
+            "pitchMax": 1.0,
+            "pitchMin": 1.0,
+            "probability": 1.0,
             "secondaryAliasName": null,
             "sequence": 0,
-            "slavePercentage": 1.38168028582427e-41,
+            "slavePercentage": 0.699999988079071,
             "soundfile": "weapons/minigun/weap_minigun_spindown2b.wav",
             "speakerMap": {
                 "channelMaps": [
                     {
-                        "entryCount": 2,
                         "speakers": [
                             {
                                 "levels0": 0.5,
@@ -41,7 +39,6 @@
                         ]
                     },
                     {
-                        "entryCount": 6,
                         "speakers": [
                             {
                                 "levels0": 0.5,
@@ -82,34 +79,32 @@
                         ]
                     },
                     {
-                        "entryCount": 2,
                         "speakers": [
                             {
-                                "levels0": 1,
+                                "levels0": 1.0,
                                 "levels1": 0.0,
                                 "numLevels": 2,
                                 "speaker": 0
                             },
                             {
                                 "levels0": 0.0,
-                                "levels1": 1,
+                                "levels1": 1.0,
                                 "numLevels": 2,
                                 "speaker": 1
                             }
                         ]
                     },
                     {
-                        "entryCount": 6,
                         "speakers": [
                             {
-                                "levels0": 1,
+                                "levels0": 1.0,
                                 "levels1": 0.0,
                                 "numLevels": 2,
                                 "speaker": 0
                             },
                             {
                                 "levels0": 0.0,
-                                "levels1": 1,
+                                "levels1": 1.0,
                                 "numLevels": 2,
                                 "speaker": 1
                             },
@@ -146,9 +141,9 @@
             "startDelay": 0,
             "subtitle": null,
             "type": 1,
-            "volMax": 0.332199990749359,
-            "volMin": 0.332199990749359,
-            "volumeFalloffCurve": "reaction"
+            "volMax": 0.2717999815940857,
+            "volMin": 0.2717999815940857,
+            "volumeFalloffCurve": "weapon2"
         }
     ]
 }

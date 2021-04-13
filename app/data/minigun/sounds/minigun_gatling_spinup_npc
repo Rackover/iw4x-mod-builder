@@ -1,25 +1,25 @@
 {
-    "aliasName": "minigun_gatling_spinloop",
+    "aliasName": "minigun_gatling_spinup_npc",
     "head": [
         {
-            "aliasName": "minigun_gatling_spinloop",
+            "aliasName": "minigun_gatling_spinup_npc",
             "centerPercentage": 0.0,
             "chainAliasName": null,
-            "distMax": 25000.0,
-            "distMin": 5000.0,
+            "distMax": 6000.0,
+            "distMin": 24.0,
             "envelopMax": 0.0,
             "envelopMin": 0.0,
             "envelopPercentage": 0.0,
-            "flags": 13445,
+            "flags": 10372,
             "lfePercentage": 0.0,
             "mixerGroup": null,
-            "pitchMax": 1.0,
-            "pitchMin": 1.0,
+            "pitchMax": 0.800000011920929,
+            "pitchMin": 0.800000011920929,
             "probability": 1.0,
             "secondaryAliasName": null,
             "sequence": 0,
-            "slavePercentage": 0.699999988079071,
-            "soundfile": "weapons/minigun/weap_minigun_spinloopb.wav",
+            "slavePercentage": 0.9200000166893005,
+            "soundfile": "weapons/minigun/roadkill_minigun_spin01.wav",
             "speakerMap": {
                 "channelMaps": [
                     {
@@ -141,8 +141,8 @@
             "startDelay": 0,
             "subtitle": null,
             "type": 1,
-            "volMax": 0.2717999815940857,
-            "volMin": 0.2717999815940857,
+            "volMax": 1.0,
+            "volMin": 1.0,
             "volumeFalloffCurve": "weapon2"
         }
     ]
