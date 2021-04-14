@@ -96,13 +96,17 @@ function generateMainGSC(mw2Path, mapname, force) {
   var fxGscFile = path.join(fxGscPath, mapname + "_fx.gsc");
   var artGscFile = path.join(artGscPath, mapname + "_art.gsc");
 
-  if (!fs.existsSync(mainGscFile) || force) {
-    var emptyGsc = `
-main()
-{
-  
-}
-    `;
+  if (!fs.existsSync(mainGscFile) || force){
+    // Template for main GSC
+    var data = fs.readFileSync(path.join("./app/data/gsc/", "main.gsc"), 'utf8');
+
+    // Inject map name etc
+    data = data
+      .replace(/MAPNAME/g, mapname)
+      .replace(/AMBIENT/g, mapInfo.ambientPlay);
+      
+    fs.writeFileSync(mainGscFile, data);
+  }
 
     const fxGsc = `
 //_createfx generated. Do not touch!
@@ -115,20 +119,17 @@ main()
 }
     `;
 
-    // Template for main GSC
-    var data = fs.readFileSync(path.join("./app/data/gsc/", "main.gsc"), 'utf8');
+    if (!fs.existsSync(fxGscFile) || force)  fs.writeFileSync(fxGscFile, fxGsc);
+  
+    var emptyGsc = `
+main()
+{
+  
+}
+    `;
 
-    // Inject map name etc
-    data = data
-      .replace(/MAPNAME/g, mapname)
-      .replace(/AMBIENT/g, mapInfo.ambientPlay);
-      
-    fs.writeFileSync(mainGscFile, data);
-
-    if (!fs.existsSync(mainFxGscFile)) fs.writeFileSync(mainFxGscFile, emptyGsc);
-    if (!fs.existsSync(fxGscFile)) fs.writeFileSync(fxGscFile, fxGsc);
-    if (!fs.existsSync(artGscFile)) fs.writeFileSync(artGscFile, emptyGsc);
-  }
+    if (!fs.existsSync(mainFxGscFile) || force)  fs.writeFileSync(mainFxGscFile, emptyGsc);
+    if (!fs.existsSync(artGscFile) || force)  fs.writeFileSync(artGscFile, emptyGsc);
 }
 
 function generateLoadAssets(mw2Path, zoneSource, mapname, force) {

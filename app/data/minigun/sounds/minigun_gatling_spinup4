@@ -5,12 +5,12 @@
             "aliasName": "minigun_gatling_spinup4",
             "centerPercentage": 0.0,
             "chainAliasName": null,
-            "distMax": 25000.0,
-            "distMin": 5000.0,
+            "distMax": 1500.0,
+            "distMin": 50.0,
             "envelopMax": 0.0,
             "envelopMin": 0.0,
             "envelopPercentage": 0.0,
-            "flags": 13444,
+            "flags": 9860,
             "lfePercentage": 0.0,
             "mixerGroup": null,
             "pitchMax": 1.0,
@@ -18,7 +18,7 @@
             "probability": 1.0,
             "secondaryAliasName": null,
             "sequence": 0,
-            "slavePercentage": 0.699999988079071,
+            "slavePercentage": 0.800000011920929,
             "soundfile": "weapons/minigun/weap_minigun_spinup4b.wav",
             "speakerMap": {
                 "channelMaps": [
@@ -141,9 +141,9 @@
             "startDelay": 0,
             "subtitle": null,
             "type": 1,
-            "volMax": 0.2717999815940857,
-            "volMin": 0.2717999815940857,
-            "volumeFalloffCurve": "weapon2"
+            "volMax": 0.33219999074935913,
+            "volMin": 0.33219999074935913,
+            "volumeFalloffCurve": "reaction"
         }
     ]
 }
