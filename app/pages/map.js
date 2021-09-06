@@ -269,7 +269,7 @@ $("#build-map").click(function () {
     $('#map-output').scrollTop($('#map-output')[0].scrollHeight);
   }
 
-  const process = spawn(path.join(mw2Path, 'iw4x.exe'), ['-zonebuilder', '-stdout', '-nosteam', '+set', 'fs_game', 'mods/' + mapname, '+buildzone', mapname, '+buildzone', mapname + "_load", '+quit'],
+  const process = spawn(path.join(mw2Path, 'iw4x.exe'), ['-zonebuilder', '-stdout', '-nosteam', '+set', 'fs_game', 'mods/' + mapname, '+set', 'zb_prefer_disk_assets', '1', '+buildzone', mapname, '+buildzone', mapname + "_load", '+quit'],
     {
       cwd: mw2Path
     });
