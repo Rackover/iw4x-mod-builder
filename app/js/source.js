@@ -27,7 +27,11 @@ const originalMaps = [
   "mp_cargoship",
   "mp_pipeline",
   "mp_overgrown",
-  "mp_farm"
+  "mp_farm",
+  "mp_carentan",
+  "mp_broadcast",
+  "mp_crash_snow",
+  "mp_creek"
   ];
 
 global.game = global.game ||
@@ -201,6 +205,7 @@ function generateArena(mw2Path, mapname, force) {
   mapoverlay  compass_overlay_map_blank 
   allieschar  ${mapInfo.alliesChar} 
   axischar    ${mapInfo.axisChar} 
+  useteamzones true
   environment ${mapInfo.environment} 
 }
 `;
