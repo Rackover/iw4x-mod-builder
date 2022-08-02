@@ -197,16 +197,16 @@ function generateArena(mw2Path, mapname, force) {
 
     var data = `
 { 
-  map         ${name}   
-  longname    ${longName}
-  gametype    dm war sab sab2 dom sd sd2 hc thc ctf koth dd oneflag gtnw
-  description ${description}     
-  mapimage    preview_${mapname}     
-  mapoverlay  compass_overlay_map_blank 
-  allieschar  ${mapInfo.alliesChar} 
-  axischar    ${mapInfo.axisChar} 
+  map          ${name}   
+  longname     ${longName}
+  gametype     dm war sab sab2 dom sd sd2 hc thc ctf koth dd oneflag gtnw
+  description  ${description}     
+  mapimage     preview_${mapname}     
+  mapoverlay   compass_overlay_map_blank 
+  allieschar   ${mapInfo.alliesChar} 
+  axischar     ${mapInfo.axisChar} 
   useteamzones true
-  environment ${mapInfo.environment} 
+  environment  ${mapInfo.environment} 
 }
 `;
 
