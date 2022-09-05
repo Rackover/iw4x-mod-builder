@@ -55,40 +55,6 @@ $("#generate-iwd").click(function () {
 
     var iwdFiles = JSON.parse(output);
 
-    // // Write preview material and image
-    // const material = {
-    //     "animationX": 1,
-    //     "animationY": 1,
-    //     "cameraRegion": 4,
-    //     "constantTable": null,
-    //     "gameFlags": 0,
-    //     "maps": [
-    //         {
-    //             "firstCharacter": 99,
-    //             "image": `preview_${mapname}`,
-    //             "lastCharacter": 112,
-    //             "sampleState": -30,
-    //             "semantic": 0,
-    //             "typeHash": 2695565377
-    //         }
-    //     ],
-    //     "name": `preview_${mapname}`,
-    //     "sortKey": 34,
-    //     "stateFlags": 3,
-    //     "stateMap": [
-    //         [
-    //             403867666,
-    //             3759013890
-    //         ]
-    //     ],
-    //     "surfaceTypeBits": 0,
-    //     "techniqueSet->name": "2d",
-    //     "unknown": 0
-    // };
-
-    // const materialDir = path.join(mw2Path, "mods", mapname, "materials");
-    // mkdirp.sync(materialDir);
-
     const workingDirectory = path.join(mw2Path, "mods", mapname);
     const previewPath = path.join(workingDirectory, "images", `preview_${mapname}.iwi`);
     const loadingPath = path.join(workingDirectory, "images", `loadscreen_${mapname}.iwi`);
@@ -382,6 +348,7 @@ $("#export-map").click(function () {
     try{
       global.game.generateSource(mapname, false);
       global.setWorking(false);
+	  appendText(`All operations completed successfully!`);
     }
     catch(e){
       console.log(e);

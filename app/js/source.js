@@ -141,25 +141,13 @@ function generateLoadAssets(mw2Path, zoneSource, mapname, force) {
   mkdirp.sync(materialPath);
 
   var loadFile = path.join(zoneSource, mapname + "_load.csv");
-  var loadmaterial = path.join(materialPath, mapname + "_load.json");
-
+  
   if (!fs.existsSync(loadFile) || force) {
     var data =
       "require,mp_rust_load\n" +
       "material," + mapname + "_load,$levelbriefing";
 
     fs.writeFileSync(loadFile, data);
-  }
-
-  if (!fs.existsSync(loadmaterial) || force) {
-    var data = {
-      "base": "$levelbriefing",
-      "textures": [
-        ["colorMap", "loadscreen_" + mapname]
-      ]
-    };
-
-    fs.writeFileSync(loadmaterial, JSON.stringify(data));
   }
 }
 
@@ -220,26 +208,21 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
   if (!fs.existsSync(mapfile) || force) {
     var visionExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "vision", mapname + ".vision"));
     var sunExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "sun", mapname + ".sun"));
+	const hasMinigun = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"));
 
-    let data =
-      "require,contingency\n" +
-      "require,co_hunted\n" +
-      "require,mp_afghan\n" +
-      "require,mp_strike\n" +
-      "require,mp_rundown\n" +
-      "require,mp_overgrown\n" +
-      "require,mp_underpass\n\n" +
+	let data = "";
+	
+	if (hasMinigun)
+	{
+		data += "require,minigun\n";
+	}
 
-      "# Those 2 maps below are necessary and always have to be the last required maps\n" +
-      "# If you want to require additional maps, add them above!\n" +
-      "require,mp_rust\n" +
-      "require,iw4_credits\n\n" +
-
+    data +=
       "map_ents,maps/mp/" + mapname + ".d3dbsp\n" +
       "col_map_mp,maps/mp/" + mapname + ".d3dbsp\n" +
-      "fx_map,maps/iw4_credits.d3dbsp,maps/mp/" + mapname + ".d3dbsp\n" +
+      "fx_map,maps/mp/" + mapname + ".d3dbsp\n" +
       "com_map,maps/mp/" + mapname + ".d3dbsp\n" +
-      "game_map_mp,maps/mp/mp_rust.d3dbsp,maps/mp/" + mapname + ".d3dbsp\n" +
+      "game_map_mp,maps/mp/" + mapname + ".d3dbsp\n" +
       "gfx_map,maps/mp/" + mapname + ".d3dbsp\n\n" +
 
       "material,compass_map_" + mapname + "\n" +
@@ -251,15 +234,12 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       "rawfile,maps/createfx/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createart/" + mapname + "_art.gsc\n" + generateFxList(mw2Path, mapname);
 
-    // Generic ambient sounds
-    // This increases the size of the FF of a few megs but ensures most of the sounds will be present
-    // const genericSoundsData = fs.readFileSync(path.join("./app/data/csv/", "generic_sounds_include.csv"), 'utf8');
-    // data += genericSoundsData;
-
-    // fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
-    //   console.log(err);
-    // });
-
+	// generic ambient sounds
+	// this increases the size of the ff of a few megs but ensures most of the sounds will be present
+	fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
+	  console.log(err);
+	});
+	
     try{
       data += generateSoundsSource(path.join(mw2Path, "mods", mapname));
     }
@@ -292,7 +272,7 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
     data += "\n\n# Destroyables\n"+vehicleData;
 
     // Minigun turrets
-    if (fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"))){
+    if (hasMinigun){
       const minigunData = fs.readFileSync(path.join("./app/data/csv/", "minigun_include.csv"), 'utf8');
       data += "\n"+minigunData;
 
@@ -318,7 +298,8 @@ function generateSoundsSource(basePath){
 
   const soundAliases = fs.readdirSync(soundAliasesRoot);
   for(i in soundAliases){
-    source.push(`sound,${soundAliases[i].replace(basePath, "")}`);
+	const snd = soundAliases[i].replace(basePath, "").replace(".json", "");
+    source.push(`sound,${snd}`);
   }
 
   return source.join("\n");

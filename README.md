@@ -6,7 +6,7 @@
 ### Production
 - Install [Gulp.js](http://gulpjs.com/) via `npm install gulp-cli -g` (required only once)
 - Install the dependencies `npm install`
-- Build the binary `gulp build`
+- Build the binary `gulp default`
 - The final binary should be in the `build` folder
 
 ### Development

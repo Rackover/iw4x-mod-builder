@@ -1,9 +1,6 @@
 # Minigun
+weapon,turret_minigun_mp
 material,hud_icon_minigun
-loaded_sound,user_interface/ui_computer_text_delete1.wav
-sound,ui_pulse_text_delete
-loaded_sound,user_interface/ui_computer_text_blip1x.wav
-sound,ui_pulse_text_type
 loaded_sound,weapons/minigun/weap_gatling_cooldown_1.wav
 sound,minigun_gatling_cooldown
 loaded_sound,weapons/minigun/weap_gatling_fireloop_1.wav
@@ -27,4 +24,3 @@ loaded_sound,weapons/minigun/weap_minigun_spinup3b.wav
 sound,minigun_gatling_spinup3
 loaded_sound,weapons/minigun/weap_minigun_spinup4b.wav
 sound,minigun_gatling_spinup4
-weapon,turret_minigun_mp
