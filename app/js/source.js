@@ -143,12 +143,19 @@ function generateLoadAssets(mw2Path, zoneSource, mapname, force) {
   var loadFile = path.join(zoneSource, mapname + "_load.csv");
   
   if (!fs.existsSync(loadFile) || force) {
-    var data =
-      "require,mp_rust_load\n" +
-      "material," + mapname + "_load,$levelbriefing";
+    var data ="material,$levelbriefing";
 
     fs.writeFileSync(loadFile, data);
   }
+  
+    let loadfileData = fs.readFileSync(path.join("./app/data/load/", "$levelbriefing.iw4x.json"), 'utf8');
+
+    // Inject map name etc
+    loadfileData = loadfileData
+      .replace(/MAPNAME/g, mapname)
+      
+  
+  fs.writeFileSync(path.join(materialPath, "$levelbriefing.iw4x.json"), loadfileData);
 }
 
 function generateFxList(mw2Path, mapname) {
