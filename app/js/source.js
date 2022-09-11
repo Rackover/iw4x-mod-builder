@@ -159,23 +159,29 @@ function generateLoadAssets(mw2Path, zoneSource, mapname, force) {
 }
 
 function generateFxList(mw2Path, mapname) {
-  var fxList = glob.sync("**/*.iw4xFx",
-    {
-      "cwd": path.join(mw2Path, "mods", mapname, "fx"),
-    }).map(function (fx) {
-      return fx.replace(".iw4xFx", "");
-    });
+	
+  let result = "";
+  const basePath = path.join(mw2Path, "mods", mapname, "fx");
+  
+  if (fs.existsSync(basePath))
+  {
+    const fxList = 
+      toolkit.walk(basePath)
+      .map(function (fx) {
+        return fx.substring(basePath.length +1).replace(".iw4xFx", "");
+      });
 
-  var result = "";
 
-  if (fxList.length > 0) {
-    result += "\n";
+    if (fxList.length > 0) {
+      result += "\n";
 
-    fxList.forEach(function (fx) {
-      result += "fx," + fx + "\n";
-    });
+      fxList.forEach(function (fx) {
+        result += "fx," + fx + "\n";
+      });
+    }
+
   }
-
+  
   return result;
 }
 
@@ -239,7 +245,8 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       "rawfile,maps/mp/" + mapname + ".gsc\n" +
       "rawfile,maps/mp/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createfx/" + mapname + "_fx.gsc\n" +
-      "rawfile,maps/createart/" + mapname + "_art.gsc\n" + generateFxList(mw2Path, mapname);
+      "rawfile,maps/createart/" + mapname + "_art.gsc\n" + 
+	  generateFxList(mw2Path, mapname);
 
 	// generic ambient sounds
 	// this increases the size of the ff of a few megs but ensures most of the sounds will be present
