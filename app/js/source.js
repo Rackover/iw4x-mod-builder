@@ -216,12 +216,13 @@ function generateArena(mw2Path, mapname, force) {
 }
 
 function generateMainCSV(mw2Path, zoneSource, mapname, force) {
-  var mapfile = path.join(zoneSource, mapname + ".csv");
+  const mapfile = path.join(zoneSource, mapname + ".csv");
 
   if (!fs.existsSync(mapfile) || force) {
-    var visionExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "vision", mapname + ".vision"));
-    var sunExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "sun", mapname + ".sun"));
-	const hasMinigun = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"));
+    const visionExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "vision", mapname + ".vision"));
+    const sunExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "sun", mapname + ".sun"));
+    const hasMinigun = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"));
+    const needsXmodelFix = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_BROKEN_XMODELS"));
 
 	let data = "";
 	
@@ -229,6 +230,11 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
 	{
 		data += "require,minigun\n";
 	}
+  
+  if (needsXmodelFix)
+  {
+    data += "# This zone is present in the mod builder directory/data/support_zones. You will need to copy it to iw4x_full_game/zone/english to be able to build the map properly. If you cannot, you can replace the below line with 'require,mp_vacant', but it might have undesirable side effects. \nrequire,xmodels_fix\n";
+  }
 
     data +=
       "map_ents,maps/mp/" + mapname + ".d3dbsp\n" +
@@ -300,15 +306,8 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
 }
 
 function generateSoundsSource(basePath){
-  const loadedSoundsRoot = path.join(basePath, "loaded_sound");
   const soundAliasesRoot = path.join(basePath, "sounds");
   let source = [];
-
-  // loaded sounds
-  const loadedSounds = toolkit.walk(loadedSoundsRoot);
-  for(i in loadedSounds){
-    source.push(`loaded_sound,${loadedSounds[i].replace(loadedSoundsRoot, "").substring(1)}`);
-  }
 
   const soundAliases = fs.readdirSync(soundAliasesRoot);
   for(i in soundAliases){
