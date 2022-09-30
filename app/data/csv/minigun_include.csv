@@ -1,26 +1,15 @@
 # Minigun
 weapon,turret_minigun_mp
 material,hud_icon_minigun
-loaded_sound,weapons/minigun/weap_gatling_cooldown_1.wav
 sound,minigun_gatling_cooldown
-loaded_sound,weapons/minigun/weap_gatling_fireloop_1.wav
 sound,minigun_gatling_fire
-loaded_sound,weapons/minigun/weap_minigun_spinloopb.wav
 sound,minigun_gatling_spin
-loaded_sound,weapons/minigun/weap_minigun_spindown1b.wav
 sound,minigun_gatling_spindown1
-loaded_sound,weapons/minigun/weap_minigun_spindown2b.wav
 sound,minigun_gatling_spindown2
-loaded_sound,weapons/minigun/weap_minigun_spindown3b.wav
 sound,minigun_gatling_spindown3
-loaded_sound,weapons/minigun/weap_minigun_spindown4b.wav
 sound,minigun_gatling_spindown4
 sound,minigun_gatling_spinloop
-loaded_sound,weapons/minigun/weap_minigun_spinup1b.wav
 sound,minigun_gatling_spinup1
-loaded_sound,weapons/minigun/weap_minigun_spinup2b.wav
 sound,minigun_gatling_spinup2
-loaded_sound,weapons/minigun/weap_minigun_spinup3b.wav
 sound,minigun_gatling_spinup3
-loaded_sound,weapons/minigun/weap_minigun_spinup4b.wav
 sound,minigun_gatling_spinup4
