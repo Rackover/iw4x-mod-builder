@@ -223,18 +223,22 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
     const sunExists = fs.existsSync(path.join(mw2Path, "mods", mapname, "sun", mapname + ".sun"));
     const hasMinigun = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_MINIGUN"));
     const needsXmodelFix = fs.existsSync(path.join(mw2Path, "mods", mapname, "HAS_BROKEN_XMODELS"));
+    
 
-	let data = "";
-	
-	if (hasMinigun)
-	{
-		data += "require,minigun\n";
-	}
-  
-  if (needsXmodelFix)
-  {
-    data += "# This zone is present in the mod builder directory/data/support_zones. You will need to copy it to iw4x_full_game/zone/english to be able to build the map properly. If you cannot, you can replace the below line with 'require,mp_vacant', but it might have undesirable side effects. \nrequire,xmodels_fix\n";
-  }
+    const additionalModelsPath = path.join(mw2Path, "mods", mapname, "additionalModels.txt");
+    const hasAdditionalModels = fs.existsSync(additionalModelsPath);
+
+    let data = "";
+    
+    if (hasMinigun)
+    {
+      data += "require,minigun\n";
+    }
+    
+    if (needsXmodelFix)
+    {
+      data += "# This zone is present in the mod builder directory/data/support_zones. You will need to copy it to iw4x_full_game/zone/english to be able to build the map properly. If you cannot, you can replace the below line with 'require,mp_vacant', but it might have undesirable side effects. \nrequire,xmodels_fix\n";
+    }
 
     data +=
       "map_ents,maps/mp/" + mapname + ".d3dbsp\n" +
@@ -252,14 +256,14 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       "rawfile,maps/mp/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createfx/" + mapname + "_fx.gsc\n" +
       "rawfile,maps/createart/" + mapname + "_art.gsc\n" + 
-	  generateFxList(mw2Path, mapname);
+    generateFxList(mw2Path, mapname);
 
-	// generic ambient sounds
-	// this increases the size of the ff of a few megs but ensures most of the sounds will be present
-	fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
-	  console.log(err);
-	});
-	
+    // generic ambient sounds
+    // this increases the size of the ff of a few megs but ensures most of the sounds will be present
+    fse.copySync("./app/data/generic_sounds", path.join(mw2Path, "mods", mapname), {overwrite:true}, function (err) {
+      console.log(err);
+    });
+    
     try{
       data += generateSoundsSource(path.join(mw2Path, "mods", mapname));
     }
@@ -301,6 +305,24 @@ function generateMainCSV(mw2Path, zoneSource, mapname, force) {
       });
     }
 
+
+    // Extra FX mentioned in the GSC, like com_barrel_piece2
+    if (hasAdditionalModels){
+      data += "\n\n# GSC models";
+      
+      const additionalModelsStr = fs.readFileSync(additionalModelsPath, 'utf8');
+      const list = additionalModelsStr.split("\n");
+      for(k in list)
+      {
+        if (list[k].length > 0)
+        {
+          data += "\nxmodel," + list[k];
+        }
+      }
+      
+      data += "\n";
+    }
+    
     fs.writeFileSync(mapfile, data);
   }
 }
